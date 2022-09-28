@@ -48,10 +48,6 @@ const rl = readLine.createInterface({
     output: process.stdout
 })
 
-function whatever(arg) {
-    console.log("I am in whatever")
-    console.log(arg)
-}
 
 
 function addNumbers(sum, numsLeft, completionCallback) {
@@ -61,13 +57,40 @@ function addNumbers(sum, numsLeft, completionCallback) {
             sum += number;
             // console.log(`Total Sum: ${sum}`);
             numsLeft -= 1;
-            rl.close();
             addNumbers(sum, numsLeft, completionCallback);
             
-            })  
+        })  
     }else{
+        rl.close();
         completionCallback(sum);
+    }
+};
+
+Function.prototype.myBind = function(context){
+    return () => {
+        this.apply(context)
     }
 }
 
-addNumbers(0,3, whatever);
+function printer(arg){
+    console.log(arg);
+};
+
+function askIfGreaterThan(el1,el2,callback){
+    rl.question(`Is ${el1} > ${el2}?\n\n`, (response)=>{
+        rl.close()
+        if(response.toUpperCase() === "YES"){
+            callback(true);
+        }else{
+            callback(false);
+            
+        }
+    })
+
+
+}
+
+
+// addNumbers(0, 3, (ans) => console.log(ans))
+askIfGreaterThan(2,10,printer)
+//rl.close()
